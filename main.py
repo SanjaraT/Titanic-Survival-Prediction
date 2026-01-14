@@ -92,5 +92,14 @@ best_lr = grid_search.best_estimator_
 #prediction
 y_val_pred = best_lr.predict(X_val_scaled)
 val_acc = accuracy_score(y_val, y_val_pred)
-print(classification_report(y_val,y_val_pred))
+# print(classification_report(y_val,y_val_pred))
+
+#confusison_matrix
+cm = confusion_matrix(y_val,y_val_pred)
+plt.figure(figsize=(5,4))
+sns.heatmap(cm,annot=True, fmt ='d',cmap='Blues')
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
+
 
