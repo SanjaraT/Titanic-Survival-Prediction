@@ -170,3 +170,10 @@ sns.heatmap(cm_gb,annot=True, fmt ='d',cmap='Blues')
 plt.xlabel("Predicted")
 plt.ylabel("Actual")
 plt.show()
+
+final_model = GradientBoostingClassifier(
+    **grid_gb.best_params_,
+    random_state=42
+)
+
+final_model.fit(X, y)
