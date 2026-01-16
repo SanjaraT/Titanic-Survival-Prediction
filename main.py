@@ -52,91 +52,91 @@ X_val_scaled = scaler.transform(X_val)
 X_test_scaled = scaler.transform(df_test)
 
 #Correlation
-# scaled_df = pd.DataFrame(X_train_scaled, columns=X_train.columns)
-# corr_matrix = scaled_df.corr()
-# plt.figure(figsize=(12,10))
-# sns.heatmap(
-#     corr_matrix, annot=True,
-#     fmt = ".2f", cmap="coolwarm"
-# )
-# plt.title("Correlation Matrix")
-# plt.show()
+scaled_df = pd.DataFrame(X_train_scaled, columns=X_train.columns)
+corr_matrix = scaled_df.corr()
+plt.figure(figsize=(12,10))
+sns.heatmap(
+    corr_matrix, annot=True,
+    fmt = ".2f", cmap="coolwarm"
+)
+plt.title("Correlation Matrix")
+plt.show()
 
 # Class Distribution
-# plt.figure(figsize=(5,4))
-# df["Survived"].value_counts().plot(kind = "bar",)
-# plt.xticks([0,1],["Yes","No"],rotation = 0)
-# plt.ylabel("Count")
-# plt.title("Distribution")
-# plt.show()
+plt.figure(figsize=(5,4))
+df["Survived"].value_counts().plot(kind = "bar",)
+plt.xticks([0,1],["Yes","No"],rotation = 0)
+plt.ylabel("Count")
+plt.title("Distribution")
+plt.show()
 
 #LOGISTIC REGRESSION
-# lr = LogisticRegression(
-#     max_iter=1000,
-#     random_state=42
-# )
-# param_grid = {
-#     'C':[0.01,0.1,1,10],
-#     'penalty':['l2'],
-#     'solver':['liblinear','lbfgs']
-# }
-# grid_search = GridSearchCV(
-#     estimator=lr,
-#     param_grid=param_grid,
-#     cv = 5,
-#     scoring = 'f1',
-#     n_jobs = -1
-# )
+lr = LogisticRegression(
+    max_iter=1000,
+    random_state=42
+)
+param_grid = {
+    'C':[0.01,0.1,1,10],
+    'penalty':['l2'],
+    'solver':['liblinear','lbfgs']
+}
+grid_search = GridSearchCV(
+    estimator=lr,
+    param_grid=param_grid,
+    cv = 5,
+    scoring = 'f1',
+    n_jobs = -1
+)
 
-# grid_search.fit(X_train_scaled,y_train)
-# best_lr = grid_search.best_estimator_
+grid_search.fit(X_train_scaled,y_train)
+best_lr = grid_search.best_estimator_
 
 #prediction
-# y_val_pred = best_lr.predict(X_val_scaled)
-# val_acc = accuracy_score(y_val, y_val_pred)
-# print(classification_report(y_val,y_val_pred))
+y_val_pred = best_lr.predict(X_val_scaled)
+val_acc = accuracy_score(y_val, y_val_pred)
+print("Classification Report of Logistic Regression:\n",classification_report(y_val,y_val_pred))
 
 #confusison_matrix
-# cm_lr = confusion_matrix(y_val,y_val_pred)
-# plt.figure(figsize=(5,4))
-# sns.heatmap(cm_lr,annot=True, fmt ='d',cmap='Blues')
-# plt.xlabel("Predicted")
-# plt.ylabel("Actual")
-# plt.show()
+cm_lr = confusion_matrix(y_val,y_val_pred)
+plt.figure(figsize=(5,4))
+sns.heatmap(cm_lr,annot=True, fmt ='d',cmap='Blues')
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
 
 #RANDOM FOREST
-# rf = RandomForestClassifier(
-#     random_state=42,
-#     n_jobs=-1
-# )
-# param_grid={
-#     'n_estimators':[100,200,300],
-#     'max_depth':[None,5,10],
-#     'min_samples_split':[2,5],
-#     'min_samples_leaf':[1,2]
-# }
-# grid_rf = GridSearchCV(
-#     estimator=rf,
-#     param_grid=param_grid,
-#     cv = 5,
-#     scoring = 'f1',
-#     n_jobs = -1
-# )
-# grid_rf.fit(X_train_scaled,y_train)
-# best_rf = grid_rf.best_estimator_
+rf = RandomForestClassifier(
+    random_state=42,
+    n_jobs=-1
+)
+param_grid={
+    'n_estimators':[100,200,300],
+    'max_depth':[None,5,10],
+    'min_samples_split':[2,5],
+    'min_samples_leaf':[1,2]
+}
+grid_rf = GridSearchCV(
+    estimator=rf,
+    param_grid=param_grid,
+    cv = 5,
+    scoring = 'f1',
+    n_jobs = -1
+)
+grid_rf.fit(X_train_scaled,y_train)
+best_rf = grid_rf.best_estimator_
 
 # #prediction
-# y_val_pred = best_rf.predict(X_val_scaled)
-# val_acc = accuracy_score(y_val, y_val_pred)
-# print(classification_report(y_val,y_val_pred))
+y_val_pred = best_rf.predict(X_val_scaled)
+val_acc = accuracy_score(y_val, y_val_pred)
+print("Classification Report of Random forest:\n",classification_report(y_val,y_val_pred))
 
 # #confusison_matrix
-# cm_rf = confusion_matrix(y_val,y_val_pred)
-# plt.figure(figsize=(5,4))
-# sns.heatmap(cm_rf,annot=True, fmt ='d',cmap='Blues')
-# plt.xlabel("Predicted")
-# plt.ylabel("Actual")
-# plt.show()
+cm_rf = confusion_matrix(y_val,y_val_pred)
+plt.figure(figsize=(5,4))
+sns.heatmap(cm_rf,annot=True, fmt ='d',cmap='Blues')
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
 
 #GRADIENT BOOSTING
 gb = GradientBoostingClassifier(
@@ -161,7 +161,7 @@ best_gb = grid_gb.best_estimator_
 #prediction
 y_val_pred_gb = best_gb.predict(X_val_scaled)
 val_acc = accuracy_score(y_val, y_val_pred_gb)
-print(classification_report(y_val,y_val_pred_gb))
+print("Classification Report of Gradient Boosting:\n",classification_report(y_val,y_val_pred_gb))
 
 #confusison_matrix
 cm_gb = confusion_matrix(y_val,y_val_pred_gb)
